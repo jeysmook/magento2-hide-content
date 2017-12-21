@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * This extension will help hide content
+ *
+ * Copyright © Dmitry Kaplin - All rights reserved.
+ * See LICENSE.txt bundled with this module for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Jeysmook\HideContent\Api\TokenManagerInterface" type="Jeysmook\HideContent\Model\TokenManager" />
+
+    <type name="Jeysmook\HideContent\Model\TokenManager">
+        <arguments>
+            <argument name="tokens" xsi:type="array">
+                <item name="customer_logout" xsi:type="object">Jeysmook\HideContent\Model\Token\CustomerLogout</item>
+                <item name="customer_logged_in" xsi:type="object">Jeysmook\HideContent\Model\Token\CustomerLoggedIn</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

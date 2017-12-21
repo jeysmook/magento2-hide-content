@@ -1,0 +1,1 @@
+The HideContent module allows hide contents.
