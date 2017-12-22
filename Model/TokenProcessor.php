@@ -53,30 +53,22 @@ class TokenProcessor
      */
     private function hideContent(string $body, TokenInterface $token)
     {
-        $openToken = $this->tokenManager->getHtmlOpen($token->getName());
-        $closeToken = $this->tokenManager->getHtmlClose($token->getName());
-        $closeTokenLength = mb_strlen($closeToken);
+        $open = $this->tokenManager->getHtmlOpen($token->getName());
+        $close = $this->tokenManager->getHtmlClose($token->getName());
+        $closeLength = mb_strlen($close);
 
-        $openIndex = $closeIndex = 0;
-        $modifyBody = $body;
-
+        $oi = $ci = 0;
         do {
-            $openIndex = mb_strpos($modifyBody, $openToken);
-            $closeIndex = mb_strpos($modifyBody, $closeToken);
+            $oi = mb_strrpos($body, $open);
+            $ci = mb_strpos($body, $close, $oi);
 
-            if (false === $openIndex || false === $closeIndex)
+            if (false === $oi || false === $ci)
                 break;
 
-            $modifyBody = substr_replace(
-                $modifyBody,
-                '',
-                $openIndex,
-                $closeIndex - $openIndex + $closeTokenLength
-            );
-        } while(false !== $openIndex && false !== $closeIndex);
+            $search = mb_substr($body, $oi, $ci - $oi + $closeLength);
+            $body = str_replace($search, '', $body);
 
-        if (!empty($modifyBody))
-            return $modifyBody;
+        } while(false !== $oi && false !== $ci);
 
         return $body;
     }
