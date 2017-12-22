@@ -37,7 +37,7 @@ class TokenManager implements TokenManagerInterface
         $tokenInstance = isset($this->tokens[$key]) ? $this->tokens[$key] : null;
 
         if ($tokenInstance instanceof TokenInterface) {
-            return '<!--<' . $tokenInstance->getHash() . '>-->';
+            return '<!--start:' . $tokenInstance->getHash() . '-->';
         }
 
         return '';
@@ -51,7 +51,7 @@ class TokenManager implements TokenManagerInterface
         $tokenInstance = isset($this->tokens[$key]) ? $this->tokens[$key] : null;
 
         if ($tokenInstance instanceof TokenInterface) {
-            return '<!--</' . $tokenInstance->getHash() . '>-->';
+            return '<!--end:' . $tokenInstance->getHash() . '-->';
         }
 
         return '';

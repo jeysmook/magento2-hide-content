@@ -14,7 +14,6 @@
         <arguments>
             <argument name="tokens" xsi:type="array">
                 <item name="customer_logout" xsi:type="object">Jeysmook\HideContent\Model\Token\CustomerLogout</item>
-                <item name="customer_logged_in" xsi:type="object">Jeysmook\HideContent\Model\Token\CustomerLoggedIn</item>
             </argument>
         </arguments>
     </type>

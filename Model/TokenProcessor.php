@@ -9,7 +9,6 @@ namespace Jeysmook\HideContent\Model;
 
 use Jeysmook\HideContent\Api\Data\TokenInterface;
 use Jeysmook\HideContent\Api\TokenManagerInterface;
-use Magento\Framework\App\ResponseInterface;
 
 class TokenProcessor
 {
@@ -23,53 +22,39 @@ class TokenProcessor
     }
 
     /**
-     * Hide required content
+     * Hide required content by token
      *
-     * @param ResponseInterface $response
-     */
-    public function execute(ResponseInterface $response)
-    {
-        $contentType = $response->getHeader('Content-Type');
-        $body = $response->getBody();
-
-        if (empty($contentType) && !empty($body)) {
-            $tokens = $this->tokenManager->getTokens();
-            foreach ($tokens as $token) {
-                if ($token->getIsApply()) {
-                    $body = $this->hideContent($body, $token);
-                }
-            }
-
-            $response->setBody($body);
-        }
-    }
-
-    /**
-     * Hide token content
-     *
-     * @param string $body
+     * @param string $string
      * @param TokenInterface $token
      * @return string
      */
-    private function hideContent(string $body, TokenInterface $token)
+    public function execute(string $string, TokenInterface $token)
     {
+        if (!$token->getIsApply()) {
+            return $string;
+        }
+
         $open = $this->tokenManager->getHtmlOpen($token->getName());
         $close = $this->tokenManager->getHtmlClose($token->getName());
         $closeLength = mb_strlen($close);
 
         $oi = $ci = 0;
         do {
-            $oi = mb_strrpos($body, $open);
-            $ci = mb_strpos($body, $close, $oi);
+            // search last open token
+            $oi = mb_strrpos($string, $open);
+            // search last close token
+            $ci = mb_strpos($string, $close, $oi);
 
+            // if token not found stop loop
             if (false === $oi || false === $ci)
                 break;
 
-            $search = mb_substr($body, $oi, $ci - $oi + $closeLength);
-            $body = str_replace($search, '', $body);
+            // search hidden area and hidden it.
+            $search = mb_substr($string, $oi, $ci - $oi + $closeLength);
+            $string = str_replace($search, '', $string);
 
         } while(false !== $oi && false !== $ci);
 
-        return $body;
+        return $string;
     }
 }

@@ -7,6 +7,7 @@
  */
 namespace Jeysmook\HideContent\Observer;
 
+use Jeysmook\HideContent\Api\TokenManagerInterface;
 use Jeysmook\HideContent\Model\TokenProcessor;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Event\ObserverInterface;
@@ -17,10 +18,15 @@ class SendResponseBeforeObserver implements ObserverInterface
     /** @var TokenProcessor */
     private $tokenProcessor;
 
+    /** @var TokenManagerInterface */
+    private $tokenManager;
+
     public function __construct(
-        TokenProcessor $tokenProcessor
+        TokenProcessor $tokenProcessor,
+        TokenManagerInterface $tokenManager
     ) {
         $this->tokenProcessor = $tokenProcessor;
+        $this->tokenManager = $tokenManager;
     }
 
     /**
@@ -31,8 +37,18 @@ class SendResponseBeforeObserver implements ObserverInterface
     public function execute(Observer $observer)
     {
         $response = $observer->getEvent()->getResponse();
+        if ($response instanceof ResponseInterface) {
+            $contentType = $response->getHeader('Content-Type');
+            $body = $response->getBody();
 
-        if ($response instanceof ResponseInterface)
-            $this->tokenProcessor->execute($response);
+            if (empty($contentType) && !empty($body)) {
+                $tokens = $this->tokenManager->getTokens();
+                foreach ($tokens as $token) {
+                    $body = $this->tokenProcessor->execute($body, $token);
+                }
+
+                $response->setBody($body);
+            }
+        }
     }
 }

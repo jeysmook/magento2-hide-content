@@ -11,12 +11,18 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\App\Http\Context;
 use Magento\Framework\Encryption\EncryptorInterface;
 
-class CustomerLogout extends CustomerLoggedIn
+class CustomerLogout extends AbstractToken
 {
     /**
      * Token name const
      */
     const TOKEN_NAME = 'customer_logout';
+
+    /** @var Context */
+    protected $httpContext;
+
+    /** @var Session */
+    protected $customerSession;
 
     public function __construct(
         EncryptorInterface $encryptor,
@@ -24,7 +30,9 @@ class CustomerLogout extends CustomerLoggedIn
         Session $customerSession,
         string $name = self::TOKEN_NAME
     ) {
-        parent::__construct($encryptor, $httpContext, $customerSession, $name);
+        $this->httpContext = $httpContext;
+        $this->customerSession = $customerSession;
+        parent::__construct($encryptor, $name);
     }
 
     /**
@@ -33,5 +41,21 @@ class CustomerLogout extends CustomerLoggedIn
     public function getIsApply()
     {
         return true !== $this->isLoggedIn();
+    }
+
+    /**
+     * Check is customer logged in
+     *
+     * @return boolean
+     */
+    protected function isLoggedIn()
+    {
+        $loggedIn = $this->httpContext
+            ->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH);
+        if (null === $loggedIn) {
+            $loggedIn = $this->customerSession->isLoggedIn();
+        }
+
+        return (boolean)$loggedIn;
     }
 }
