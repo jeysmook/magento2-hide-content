@@ -24,6 +24,13 @@ interface TokenInterface
     public function getName();
 
     /**
+     * Retrieve token label
+     *
+     * @return string
+     */
+    public function getLabel();
+
+    /**
      * Retrieve token hash
      *
      * @return string

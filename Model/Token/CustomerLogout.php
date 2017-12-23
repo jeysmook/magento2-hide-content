@@ -44,6 +44,14 @@ class CustomerLogout extends AbstractToken
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getLabel()
+    {
+        return __('Customer logout token');
+    }
+
+    /**
      * Check is customer logged in
      *
      * @return boolean
