@@ -58,9 +58,21 @@ class TokenProcessorTest extends \PHPUnit\Framework\TestCase
         $openToken = $this->tokenManager->getHtmlOpen($this->token->getName());
         $closeToken = $this->tokenManager->getHtmlClose($this->token->getName());
 
+        //add first example
         $example = file_get_contents(__DIR__ . '/../_files/token-processor/example1.html');
         $result = file_get_contents(__DIR__ . '/../_files/token-processor/result1.html');
+        $example = str_replace([
+            '<!--open-->',
+            '<!--close-->'
+        ], [$openToken, $closeToken], $example);
 
+        $this->contents = [
+            [$example, $result]
+        ];
+
+        //add second example
+        $example = file_get_contents(__DIR__ . '/../_files/token-processor/example2.html');
+        $result = file_get_contents(__DIR__ . '/../_files/token-processor/result2.html');
         $example = str_replace([
             '<!--open-->',
             '<!--close-->'
