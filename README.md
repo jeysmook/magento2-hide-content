@@ -14,7 +14,7 @@
 Let's say you have a unit that you want to hide for non logged user, all you need to do is to wrap this block in a special token.
 ```
 <?php echo $block->getHtmlOpenToken(\Jeysmook\HideContent\Model\Token\CustomerLogout::TOKEN_NAME); ?>
-<div class="only-customer-is-logged-in">
+<div class="add-to-cart">
     <form action="<?php /* @NoEscape */ $block->getSubmitUrl() ?>" method="post">
         ...
     </form>
