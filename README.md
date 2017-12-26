@@ -11,7 +11,7 @@
     - ```php bin/magento setup:di:compile```
     - ```php bin/magento cache:flush``` or ```php bin/magento cache:clean```
 ## Usage
-Let's say you have a unit that you want to hide for registered users, all you need to do is to wrap this block in a special token.
+Let's say you have a unit that you want to hide for non logged user, all you need to do is to wrap this block in a special token.
 ```
 <?php echo $block->getHtmlOpenToken(\Jeysmook\HideContent\Model\Token\CustomerLogout::TOKEN_NAME); ?>
 <div class="only-customer-is-logged-in">
