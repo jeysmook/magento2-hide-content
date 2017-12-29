@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * This extension will help hide content
+ *
+ * Copyright © Dmitry Kaplin - All rights reserved.
+ * See LICENSE.txt bundled with this module for license details.
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="jeysmook_hide_content_open_token" class="Jeysmook\HideContent\Block\Widget\Token\Open"
+            placeholder_image="Jeysmook_HideContent::images/widget_jeysmook_hide_content_open_token.png">
+        <label translate="true">Hide Content Open Token</label>
+        <description translate="true">Add Token to Content</description>
+        <parameters>
+            <parameter name="token_name"
+                       xsi:type="select"
+                       visible="true"
+                       required="true"
+                       sort_order="10"
+                       source_model="Jeysmook\HideContent\Model\Config\Source\Tokens">
+                <label translate="true">Token</label>
+            </parameter>
+        </parameters>
+    </widget>
+    <widget id="jeysmook_hide_content_close_token" class="Jeysmook\HideContent\Block\Widget\Token\Close"
+            placeholder_image="Jeysmook_HideContent::images/widget_jeysmook_hide_content_close_token.png">
+        <label translate="true">Hide Content Close Token</label>
+        <description translate="true">Add Token to Content</description>
+        <parameters>
+            <parameter name="token_name"
+                       xsi:type="select"
+                       visible="true"
+                       required="true"
+                       sort_order="10"
+                       source_model="Jeysmook\HideContent\Model\Config\Source\Tokens">
+                <label translate="true">Token</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

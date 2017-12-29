@@ -13,6 +13,7 @@
     <type name="Jeysmook\HideContent\Model\TokenManager">
         <arguments>
             <argument name="tokens" xsi:type="array">
+                <item name="hide_content" xsi:type="object">Jeysmook\HideContent\Model\Token\HideContent</item>
                 <item name="customer_logout" xsi:type="object">Jeysmook\HideContent\Model\Token\CustomerLogout</item>
             </argument>
         </arguments>
