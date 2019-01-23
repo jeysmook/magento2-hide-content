@@ -38,10 +38,8 @@ class SendResponseBeforeObserver implements ObserverInterface
     {
         $response = $observer->getEvent()->getResponse();
         if ($response instanceof ResponseInterface) {
-            $contentType = $response->getHeader('Content-Type');
             $body = $response->getBody();
-
-            if (empty($contentType) && !empty($body)) {
+            if (!empty($body)) {
                 $tokens = $this->tokenManager->getTokens();
                 foreach ($tokens as $token) {
                     $body = $this->tokenProcessor->execute($body, $token);
